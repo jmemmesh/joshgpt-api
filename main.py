@@ -1,10 +1,11 @@
-from flask import Flask
+from fastapi import FastAPI
+import uvicorn
+from api import api_router
+from lifespan.lifespan import lifespan
 
-app = Flask(__name__)
+app = FastAPI(lifespan=lifespan)
 
-@app.route("/")
-def get_answer():
-    return "Hello, World!"
+app.include_router(api_router)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
